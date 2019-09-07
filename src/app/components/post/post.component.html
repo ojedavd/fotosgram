@@ -13,14 +13,14 @@
   </ion-item>
 
   <ion-slides mode="ios" pager="true" scrollbar="ios">
-    <ion-slide>
-      <img src="/assets/perro-1.jpg" />
+    <ion-slide class="image-slide"
+               [style]=" img1 | domSanitizer ">
     </ion-slide>
-    <ion-slide>
-      <img src="/assets/perro-2.jpg" />
+    <ion-slide class="image-slide"
+               [style]=" img2 | domSanitizer ">
     </ion-slide>
-    <ion-slide>
-      <img src="/assets/perro-3.jpg" />
+    <ion-slide class="image-slide"
+               [style]=" img3 | domSanitizer ">
     </ion-slide>
   </ion-slides>
 
@@ -30,7 +30,7 @@
   </ion-item>
 
   <ion-item lines="none">
-    <ion-label text-wrap>
+    <ion-label class="ion-text-wrap">
       {{ post.mensaje }}
     </ion-label>
   </ion-item>
