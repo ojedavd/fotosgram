@@ -14,7 +14,7 @@ const URL = environment.url;
 export class UsuarioService {
 
   token: string = null;
-  usuario: Usuario = {};
+  private usuario: Usuario = {};
 
   constructor( private http: HttpClient,
                private storage: Storage,
@@ -66,6 +66,14 @@ export class UsuarioService {
 
   }
 
+  getUsuario() {
+
+    if ( !this.usuario._id ) {
+      this.validaToken();
+    }
+
+    return { ...this.usuario };
+  }
 
   async guardarToken( token: string ) {
 
