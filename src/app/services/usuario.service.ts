@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 import { environment } from 'src/environments/environment';
+import { resolve } from 'url';
 
 const URL = environment.url;
 
@@ -10,7 +11,7 @@ const URL = environment.url;
 })
 export class UsuarioService {
 
-  toke: string = null;
+  token: string = null;
 
   constructor( private http: HttpClient,
                private storage: Storage) { }
@@ -19,10 +20,30 @@ export class UsuarioService {
 
     const data = { email, password };
 
-    this.http.post(`${ URL }/user/login`, data )
-      .subscribe( resp => {
-        console.log(resp)
-      });
+    return new Promise( resolve => {
+
+      this.http.post(`${ URL }/user/login`, data )
+        .subscribe( resp => {
+
+          if ( resp['ok'] ) {
+            this.guardarToken( resp['token'] );
+            resolve(true);
+          } else {
+            this.token = null;
+            this.storage.clear();
+            resolve(false);
+          }
+
+        });
+
+    });
+
+  }
+
+  async guardarToken( token: string ) {
+
+    this.token = token;
+    await this.storage.set('token', token);
 
   }
 }
